@@ -19,8 +19,8 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh 'chmod +x hello.sh'
-                sh './hello.sh'
+                sh 'sudo chmod +x hello.sh'
+                sh 'sudo ./hello.sh'
             }
         }
     }
