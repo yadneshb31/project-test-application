@@ -1,0 +1,18 @@
+pipeline {
+
+    agent any
+
+    stages {
+        stage('checkout') {
+            steps {
+                git 'https://github.com/mangeshchauhan/Test-application.git'
+            }
+        }
+        stage('deploy') {
+            steps {
+                sh 'chmod +x hello.sh'
+                sh './hello.sh'
+            }
+        }
+    }
+}
