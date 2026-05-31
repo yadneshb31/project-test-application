@@ -19,8 +19,9 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh 'sudo chmod +x hello.sh'
-                sh 'sudo ./hello.sh'
+                sh 'pwd'
+                sh 'ls -ltr'
+                sh 'df -hT'
             }
         }
     }
