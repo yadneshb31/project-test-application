@@ -4,21 +4,19 @@ kind: Ingress
 metadata:
   name: springboot-ingress
   namespace: springboot
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 
 spec:
   ingressClassName: nginx
 
   rules:
-  - host: springboot.mangesh.local
-
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
-
         backend:
           service:
             name: springboot-service
-
             port:
               number: 80
