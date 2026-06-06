@@ -50,8 +50,7 @@ pipeline {
 
                     kubectl apply -f K8s/deployment.yml
 
-                    kubectl rollout status deployment/springboot-app \
-                    -n $NAMESPACE
+                    
                     '''
                 }
             }
