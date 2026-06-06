@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION   = "ap-south-1"
-        CLUSTER_NAME = "devops-eks"
+        AWS_REGION   = "us-east-1"
+        CLUSTER_NAME = "3RI-devops-eks-cluster"
         NAMESPACE    = "springboot"
         IMAGE_NAME   = "mangeshchauhan/test-application"
         IMAGE_TAG    = "${BUILD_NUMBER}"
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 withCredentials([
                     [$class: 'AmazonWebServicesCredentialsBinding',
-                     credentialsId: 'aws-eks-user']
+                     credentialsId: 'aws-creds']
                 ]) {
 
                     sh '''
