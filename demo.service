@@ -3,7 +3,7 @@ Description=Demo Spring Boot App
 After=network.target
 
 [Service]
-User=ec2-user
+User=ubuntu
 WorkingDirectory=/opt/demo
 ExecStart=/usr/bin/java -jar /opt/demo/demo.jar
 SuccessExitStatus=143

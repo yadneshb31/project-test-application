@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        EC2_HOST     = 'ec2-user@YOUR_EC2_PUBLIC_DNS'  // e.g. ec2-user@ec2-1-2-3-4.compute-1.amazonaws.com
+        EC2_HOST     = 'ubuntu@98.92.149.96'  // e.g. ec2-user@ec2-1-2-3-4.compute-1.amazonaws.com
         SSH_CRED_ID  = 'ec2-ssh-key'                   // Jenkins SSH Username+Private Key credential ID
         REMOTE_DIR   = '/opt/demo'
         JAR_NAME     = 'demo.jar'
@@ -39,7 +39,7 @@ pipeline {
                 sshagent(credentials: [env.SSH_CRED_ID]) {
                     sh '''
                         set -e
-                        ssh -o StrictHostKeyChecking=no $EC2_HOST "sudo mkdir -p $REMOTE_DIR && sudo chown ec2-user:ec2-user $REMOTE_DIR"
+                        ssh -o StrictHostKeyChecking=no $EC2_HOST "sudo mkdir -p $REMOTE_DIR && sudo chown ubuntu:ubuntu $REMOTE_DIR"
                         scp -o StrictHostKeyChecking=no target/demo.jar $EC2_HOST:$REMOTE_DIR/$JAR_NAME
                         scp -o StrictHostKeyChecking=no demo.service     $EC2_HOST:/tmp/demo.service
                         ssh -o StrictHostKeyChecking=no $EC2_HOST "
