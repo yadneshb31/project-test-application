@@ -5,7 +5,7 @@ pipeline {
         AWS_REGION   = "us-east-1"
         CLUSTER_NAME = "3RI-devops-eks-cluster"
         NAMESPACE    = "springboot"
-        IMAGE_NAME   = "mangeshchauhan/test-application"
+        IMAGE_NAME   = "mangeshc225/test-application"
         IMAGE_TAG    = "latest"
     }
 
@@ -31,6 +31,15 @@ pipeline {
             }
         }
 
+        stage('Verify Docker Image Exists') {
+            steps {
+                sh '''
+                echo "Checking Docker Hub image..."
+                docker pull $IMAGE_NAME:$IMAGE_TAG
+                '''
+            }
+        }
+
         stage('Deploy to EKS') {
             steps {
                 withCredentials([
@@ -39,21 +48,33 @@ pipeline {
                 ]) {
 
                     sh '''
+                    set -e
+
                     kubectl apply -f K8s/namespace.yml
                     kubectl apply -f K8s/configmap.yml
                     kubectl apply -f K8s/service.yml
                     kubectl apply -f K8s/ingress.yml
 
-                    kubectl set image deployment/springboot-app \
-                    springboot-app=$IMAGE_NAME:$IMAGE_TAG \
-                    -n $NAMESPACE || true
-
                     kubectl apply -f K8s/deployment.yml
 
-                    
+                    kubectl set image deployment/springboot-app \
+                    springboot-app=$IMAGE_NAME:$IMAGE_TAG \
+                    -n $NAMESPACE
+
+                    kubectl rollout status deployment/springboot-app -n $NAMESPACE
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment successful - image pulled from Docker Hub"
+        }
+
+        failure {
+            echo "Deployment failed - check image or cluster access"
         }
     }
 }
