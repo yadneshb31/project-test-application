@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: springboot-app
+  namespace: springboot
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: springboot-app
+
+  template:
+    metadata:
+      labels:
+        app: springboot-app
+
+    spec:
+      containers:
+      - name: springboot-app
+
+        image: mangeshchauhan/test-application:latest
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: springboot-config

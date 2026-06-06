@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION   = "ap-south-1"
+        CLUSTER_NAME = "devops-eks"
+        NAMESPACE    = "springboot"
+        IMAGE_NAME   = "mangeshchauhan/test-application"
+        IMAGE_TAG    = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Authenticate to AWS') {
+            steps {
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-eks-user']
+                ]) {
+
+                    sh '''
+                    aws sts get-caller-identity
+
+                    aws eks update-kubeconfig \
+                        --region $AWS_REGION \
+                        --name $CLUSTER_NAME
+
+                    kubectl get nodes
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-creds']
+                ]) {
+
+                    sh '''
+                    kubectl apply -f k8s/namespace.yml
+                    kubectl apply -f k8s/configmap.yml
+                    kubectl apply -f k8s/service.yml
+                    kubectl apply -f k8s/ingress.yml
+
+                    kubectl set image deployment/springboot-app \
+                    springboot-app=$IMAGE_NAME:$IMAGE_TAG \
+                    -n $NAMESPACE || true
+
+                    kubectl apply -f k8s/deployment.yml
+
+                    kubectl rollout status deployment/springboot-app \
+                    -n $NAMESPACE
+                    '''
+                }
+            }
+        }
+    }
+}
