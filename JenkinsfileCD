@@ -6,7 +6,7 @@ pipeline {
         CLUSTER_NAME = "3RI-devops-eks-cluster"
         NAMESPACE    = "springboot"
         IMAGE_NAME   = "mangeshchauhan/test-application"
-        IMAGE_TAG    = "${BUILD_NUMBER}"
+        IMAGE_TAG    = "latest"
     }
 
     stages {
