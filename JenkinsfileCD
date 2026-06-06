@@ -39,16 +39,16 @@ pipeline {
                 ]) {
 
                     sh '''
-                    kubectl apply -f K8s_Deployment/namespace.yml
-                    kubectl apply -f K8s_Deployment/configmap.yml
-                    kubectl apply -f K8s_Deployment/service.yml
-                    kubectl apply -f K8s_Deployment/ingress.yml
+                    kubectl apply -f K8s/namespace.yml
+                    kubectl apply -f K8s/configmap.yml
+                    kubectl apply -f K8s/service.yml
+                    kubectl apply -f K8s/ingress.yml
 
                     kubectl set image deployment/springboot-app \
                     springboot-app=$IMAGE_NAME:$IMAGE_TAG \
                     -n $NAMESPACE || true
 
-                    kubectl apply -f K8s_Deployment/deployment.yml
+                    kubectl apply -f K8s/deployment.yml
 
                     kubectl rollout status deployment/springboot-app \
                     -n $NAMESPACE
