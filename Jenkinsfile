@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'app-server'
-    }
+    agent any
 
     tools {
         maven 'Maven3'   // Configure in Jenkins: Manage Jenkins > Tools
