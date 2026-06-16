@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         EC2_HOST    = 'ubuntu@ec2-98-92-222-171.compute-1.amazonaws.com'
-        PEM_FILE    = '/var/lib/jenkins/.ssh/Ubuntu.pem'
+        PEM_FILE    = '/var/lib/jenkins/.ssh/faculty-devops-key.pem'
         REMOTE_DIR  = '/opt/demo'
         JAR_NAME    = 'demo.jar'
         SERVICE_NAME = 'demo'
