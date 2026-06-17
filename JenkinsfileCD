@@ -5,7 +5,7 @@ pipeline {
         AWS_REGION   = "us-east-1"
         CLUSTER_NAME = "3RI-devops-eks-cluster"
         NAMESPACE    = "springboot"
-        IMAGE_NAME   = "mangeshc225/test-application"
+        IMAGE_NAME   = "ybhaisare31/project-test-application"
         IMAGE_TAG    = "latest"
     }
 
